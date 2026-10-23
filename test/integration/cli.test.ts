@@ -9,6 +9,7 @@ import { startMockNbi, type MockNbi } from '../helpers/mock-nbi.js';
 
 const CLI = path.resolve(import.meta.dirname, '..', '..', 'dist', 'cli.js');
 const EXAMPLE = path.resolve(import.meta.dirname, '..', '..', 'genieacs.example.yaml');
+const PKG_VERSION = (JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, '..', '..', 'package.json'), 'utf8')) as { version: string }).version;
 let mock: MockNbi;
 let authed: MockNbi;
 beforeAll(async () => { mock = await startMockNbi(); authed = await startMockNbi({ user: 'noc', pass: 'dummy-pass' }); });
@@ -27,7 +28,7 @@ const run = (args: string[], env: Record<string, string>) => new Promise<{ statu
 
 describe('cli', () => {
   it('prints version and help', async () => {
-    expect(execFileSync(process.execPath, [CLI, '--version'], { encoding: 'utf8' }).trim()).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(execFileSync(process.execPath, [CLI, '--version'], { encoding: 'utf8' }).trim()).toBe(PKG_VERSION);
     expect(execFileSync(process.execPath, [CLI, '--help'], { encoding: 'utf8' })).toContain('GENIEACS_NBI_URL');
   });
 
