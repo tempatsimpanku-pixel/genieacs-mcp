@@ -1,0 +1,7 @@
+# Code owners
+*                     @tempatsimpanku-pixel
+/.github/             @tempatsimpanku-pixel
+/src/guard.ts         @tempatsimpanku-pixel
+/src/redact.ts        @tempatsimpanku-pixel
+/src/http.ts          @tempatsimpanku-pixel
+/SECURITY.md          @tempatsimpanku-pixel

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tempatsimpanku-pixel/genieacs-mcp",
+  "title": "genieacs-nbi-mcp",
+  "description": "Read-only MCP server for GenieACS (TR-069) NBI: inspect CPE/ONT devices, faults and tasks.",
+  "repository": {
+    "url": "https://github.com/tempatsimpanku-pixel/genieacs-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/tempatsimpanku-pixel/genieacs-mcp#readme",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "genieacs-nbi-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        { "name": "GENIEACS_NBI_URL", "description": "Base URL of the GenieACS NBI, e.g. http://acs.example.net:7557", "isRequired": true },
+        { "name": "GENIEACS_NBI_USER", "description": "HTTP basic user, only if the NBI is behind auth.", "isRequired": false },
+        { "name": "GENIEACS_NBI_PASS", "description": "HTTP basic password, only if the NBI is behind auth.", "isRequired": false, "isSecret": true }
+      ]
+    }
+  ]
+}
