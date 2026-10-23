@@ -1,0 +1,16 @@
+# genieacs.example.yaml — copy to genieacs.yaml (git-ignored) and adjust.
+# Every value can also come from the environment:
+#   GENIEACS_NBI_URL   overrides nbi.base_url
+#   GENIEACS_NBI_USER / GENIEACS_NBI_PASS   HTTP basic credentials (never put the password in this file)
+nbi:
+  base_url: http://acs.example.net:7557   # GenieACS NBI (default port 7557); keep it on a private network
+  # Only if the NBI sits behind a proxy that requires HTTP basic auth.
+  # The names below are the defaults; the values are read from the environment.
+  auth:
+    user_env: GENIEACS_NBI_USER
+    pass_env: GENIEACS_NBI_PASS
+  timeout_ms: 15000        # per request
+  default_limit: 50        # rows returned when a tool call gives no limit
+  max_limit: 500           # hard upper bound for any limit
+  max_output_bytes: 200000 # tool results are trimmed (whole items) to fit
+  redact: true             # mask passwords / keys / PSK / community values in device data
