@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+*.pem
+*.key
+*.cred
+genieacs.yaml
+genieacs.local.yaml
+.claude/
+.vscode/
+.idea/
+.DS_Store
+release/
