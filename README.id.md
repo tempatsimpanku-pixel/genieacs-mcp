@@ -22,7 +22,7 @@ berarti pelanggan putus. Server ini menjadikan observasi satu-satunya mode:
 - **Guard sebelum jaringan.** `POST/PUT/PATCH/DELETE`, `/devices/{id}/tasks`, path tag, dan flag `connection_request` ditolak
   oleh kebijakan *sebelum* request dibuat. Koleksi tak dikenal, `..`, double slash, dan URL absolut juga ditolak.
 - **Rahasia tidak keluar.** Kunci Wi-Fi, password PPP/ACS, community SNMP, dan isian mirip password di skrip provision disamarkan;
-  kredensial NBI dibersihkan dari semua keluaran.
+  kredensial NBI dibersihkan dari semua keluaran. Penyamaran bersifat best-effort berbasis nama parameter (heuristik, bukan jaminan menyeluruh); `redact: false` menonaktifkannya.
 - **Terbatas.** Batas baris, ukuran keluaran, ukuran body, timeout; redirect tidak diikuti.
 
 Guard hanya satu lapis. Berikan juga akun/proxy NBI yang hanya mengizinkan `GET` (lihat [SECURITY.md](SECURITY.md)).

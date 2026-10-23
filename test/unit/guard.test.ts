@@ -11,6 +11,9 @@ describe('assertGet', () => {
     expect(() => assertGet(m)).toThrow(PolicyError);
     expect(() => assertGet(m)).toThrow(/Refused by policy: genieacs-nbi-mcp is read-only/);
   });
+  it('uses correct grammar in the write-verb refusal', () => {
+    expect(() => assertGet('POST')).toThrow(/POST requests are not available/);
+  });
   it.each(['HEAD', 'OPTIONS', 'TRACE', '', 'GET\r\nX: y'])('refuses odd verb %j', (m) => {
     expect(() => assertGet(m)).toThrow(PolicyError);
   });
@@ -19,7 +22,7 @@ describe('assertGet', () => {
 describe('parseReadPath', () => {
   it.each([
     ['/devices', 'devices'], ['/devices?limit=5&projection=_id', 'devices'], ['/devices/202BC1-BM632w-000001', 'devices'],
-    ['/devices/a%2Fb', 'devices'], ['/tasks', 'tasks'], ['/faults?query=%7B%7D', 'faults'], ['/files', 'files'], ['/presets', 'presets'],
+    ['/tasks', 'tasks'], ['/faults?query=%7B%7D', 'faults'], ['/files', 'files'], ['/presets', 'presets'],
     ['/provisions', 'provisions'], ['/virtualparameters', 'virtualparameters'], ['/objects', 'objects'], ['/devices/', 'devices'], ['/Devices', 'devices'],
   ])('accepts %s', (p, root) => {
     expect(parseReadPath(p).root).toBe(root);
@@ -32,6 +35,7 @@ describe('parseReadPath', () => {
   it.each([
     '/devices/abc/tasks', '/devices/abc/tasks?connection_request', '/devices/abc/tags/foo', '/devices/abc/%74asks', '/devices/abc/%2574asks',
     '/devices/abc/anything', '/tasks/abc/retry', '/files/a/b',
+    '/devices/abc%2Ftasks', '/devices/%2e%2e%2ftasks',
   ])('refuses write/sub-resource path %s', (p) => {
     expect(() => parseReadPath(p)).toThrow(PolicyError);
   });

@@ -9,15 +9,15 @@ export type ReadRoot = (typeof READ_ROOTS)[number];
 
 const WRITE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
-const refuse = (what: string): never => {
-  throw new PolicyError(`Refused by policy: genieacs-nbi-mcp is read-only. ${what} is not available (no tasks, tags, parameter writes, refreshObject, reboot, factoryReset, file upload or delete).`);
+const refuse = (what: string, plural = false): never => {
+  throw new PolicyError(`Refused by policy: genieacs-nbi-mcp is read-only. ${what} ${plural ? 'are' : 'is'} not available (no tasks, tags, parameter writes, refreshObject, reboot, factoryReset, file upload or delete).`);
 };
 
 /** Only GET is ever sent. Write verbs get a policy message, anything else a plain one. */
 export function assertGet(method: string): void {
   const m = method.trim().toUpperCase();
   if (m === 'GET') return;
-  if (WRITE_METHODS.has(m)) refuse(`${m} requests`);
+  if (WRITE_METHODS.has(m)) refuse(`${m} requests`, true);
   throw new PolicyError(`Refused by policy: only GET is allowed (got "${method.slice(0, 16)}").`);
 }
 
@@ -44,6 +44,7 @@ export function parseReadPath(input: string): ReadTarget {
   for (const s of segments) {
     let d = s;
     try { for (let i = 0; i < 3 && /%/.test(d); i++) d = decodeURIComponent(d); } catch { throw new PolicyError('Refused by policy: malformed percent-encoding in path.'); }
+    if (d.includes('/')) throw new PolicyError('Refused by policy: path segment contains an encoded slash.');
     if (d === '.' || d === '..' || /[\\\u0000-\u001f]/.test(d) || (s !== '' && d === '')) throw new PolicyError('Refused by policy: path traversal or empty segment.');
     decoded.push(d);
   }

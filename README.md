@@ -22,7 +22,7 @@ customer outage. This server makes observation the only mode:
 - **Guard before the network.** `POST/PUT/PATCH/DELETE`, `/devices/{id}/tasks`, tag paths and the `connection_request` flag are refused
   by policy *before* a request is built. Unknown collections, `..`, double slashes and absolute URLs are refused too.
 - **Secrets stay home.** Wi-Fi keys, PPP/ACS passwords, SNMP communities and password-like assignments in provision scripts are masked;
-  the NBI credentials are scrubbed from every output.
+  the NBI credentials are scrubbed from every output. Redaction is best-effort and based on parameter names (a heuristic, not a comprehensive guarantee); `redact: false` disables it.
 - **Bounded.** Row limits, output size limit, body cap, timeouts, no redirects followed.
 
 The guard is one layer. Also give this server an NBI account/proxy that only allows `GET` (see [SECURITY.md](SECURITY.md)).
