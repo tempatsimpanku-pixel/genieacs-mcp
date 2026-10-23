@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import { parseArgs } from 'node:util';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { ConfigError, checkPrivateFile, loadConfig } from './config.js';
@@ -8,7 +9,8 @@ import { MIN_TOKEN_LENGTH, startHttpServer } from './http.js';
 import { NbiClient } from './nbi-client.js';
 import { createMcpServer } from './server.js';
 
-const VERSION = '0.1.0';
+// Single source of truth: the published package.json (dist/cli.js -> ../package.json).
+const VERSION: string = (createRequire(import.meta.url)('../package.json') as { version: string }).version;
 const USAGE = `genieacs-nbi-mcp ${VERSION} — read-only MCP server for the GenieACS NBI
 
 Usage: genieacs-nbi-mcp [--config genieacs.yaml] [options]

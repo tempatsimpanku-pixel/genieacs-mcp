@@ -1,6 +1,6 @@
 {
   "name": "genieacs-nbi-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only MCP server for GenieACS (TR-069 ACS) NBI: inspect CPE/ONT devices, faults, tasks and files without any write access.",
   "keywords": ["mcp", "model-context-protocol", "genieacs", "tr-069", "acs", "cwmp", "ont", "isp", "read-only"],
   "license": "Apache-2.0",
@@ -26,7 +26,8 @@
     "test": "vitest run",
     "start": "node dist/cli.js",
     "check:server-json": "node scripts/check-server-json.mjs",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run typecheck && npm run check:server-json && npm test && npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",
